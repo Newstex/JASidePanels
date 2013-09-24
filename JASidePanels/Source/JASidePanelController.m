@@ -455,6 +455,13 @@ static char ja_kvoContext;
     } else if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         UIPanGestureRecognizer *pan = (UIPanGestureRecognizer *)gestureRecognizer;
         CGPoint translate = [pan translationInView:self.centerPanelContainer];
+        CGPoint location  = [pan locationInView:self.centerPanelContainer];
+
+        // Only track pans on the navigation bar
+        if (location.y > 64.0f) {
+            return NO;
+        }
+
         // determine if right swipe is allowed
         if (translate.x < 0 && ! self.allowRightSwipe) {
             return NO;
